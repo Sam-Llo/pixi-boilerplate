@@ -5,9 +5,9 @@ const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
-	backgroundColor: 0x6495ed,
-	width: 640,
-	height: 480
+	backgroundColor: 0xFFFFFF,
+	width: window.innerWidth,
+	height: window.innerHeight
 });
 
 // const clampy: Sprite = Sprite.from("clampy.png");
@@ -19,14 +19,15 @@ const app = new Application({
 
 // app.stage.addChild(clampy);
 
+private let mousex: number;
+private let mousey: number;
 document.addEventListener("mousemove", (event) => {
-	let mousex = event.clientX; // Gets Mouse X
-	let mousey = event.clientY; // Gets Mouse Y
-	console.log([mousex, mousey]); // Prints data
+	mousex = event.clientX; // Gets Mouse X
+	mousey = event.clientY; // Gets Mouse Y
   });
 
 const container = new Container();
-const texture = Texture.from('clampy.png')
+const texture = Texture.from('clampy.png');
 
 const emitter = new Emitter(
 
@@ -51,7 +52,7 @@ const emitter = new Emitter(
 		//Starting and Ending Size with randomness
 		"scale": {
 		  "start": 0.1,
-		  "end": 0.5,
+		  "end": 0.1,
 		  "minimumScaleMultiplier": 0
 		},
 		
@@ -89,45 +90,32 @@ const emitter = new Emitter(
 		//Force Rotation Speed Randomness - Positive or Negative = direction
 		"rotationSpeed": {
 		  "min": 0,
-		  "max": 20
+		  "max": 0
 		},
 		
 		//Lifetime of Particle Randomness
 		"lifetime": {
-		  "min": 20,
-		  "max": 20
+		  "min": 10,
+		  "max": 10
 		},
 		
 		//Blending Mode
 		"blendMode": "normal",
-		
-		//How Quickly New Particles Are Generated
-		"frequency": 0.1,
-		
-		//How Long the Particles Are Generated 
+		"frequency": 0.01,
 		"emitterLifetime": -1,
-		
-		//Maximum Paticles at a Time
-		"maxParticles": 10000,
-		
-		//Starting Position of emitter
+		"maxParticles": 1000,
 		"pos": {
-		  "x": 0,
-		  "y": 0
+			"x": 0,
+			"y": 0
 		},
-		
-		//If particles should be added to the back of the display
 		"addAtBack": false,
-		
-		//Emitter Type with properties
-		"spawnType": "rect",
-		"spawnRect": {
-		  "x":0 ,
-		  "y":0,
-		  "w": window.innerWidth/2,
-		  "h": 0
+		"spawnType": "ring",
+		"spawnCircle": {
+			"x": window.innerWidth/2,
+			"y": window.innerHeight/2,
+			"r": 50,
+			"minR": 50
 		}
-	  }
 );
 
 // Calculate the current time
@@ -140,6 +128,8 @@ let update = function(){
 	var now = Date.now();
 	// The emitter requires the elapsed
 	// number of seconds since the last update
+	emitter.spawnCircle.x = mousex;
+	emitter.spawnCircle.y = mousey;
 	emitter.update((now - elapsed) * 0.001);
 	elapsed = now;
 	app.stage.addChild(container)
