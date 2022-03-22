@@ -1,11 +1,11 @@
-import { Application, Sprite, Container, Texture} from 'pixi.js'
+import { Application, Sprite, Container, Texture, Graphics} from 'pixi.js'
 import { Emitter, Particle } from 'pixi-particles'
 
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
-	backgroundColor: 0xFFFFFF,
+	backgroundColor: 0xFFFAF1,
 	width: window.innerWidth,
 	height: window.innerHeight
 });
@@ -26,8 +26,13 @@ document.addEventListener("mousemove", (event) => {
 	mousey = event.clientY; // Gets Mouse Y
   });
 
+const dust  = new Graphics();
+dust.beginFill(0x808080);
+dust.drawCircle(0, 0, 30);
+dust.endFill();
+
 const container = new Container();
-const texture = Texture.from('clampy.png');
+const texture = app.renderer.generateTexture(dust);
 
 const emitter = new Emitter(
 
@@ -51,9 +56,9 @@ const emitter = new Emitter(
 		
 		//Starting and Ending Size with randomness
 		"scale": {
-		  "start": 0.1,
-		  "end": 0.1,
-		  "minimumScaleMultiplier": 0
+		  "start": 0.05,
+		  "end": 0.01,
+		  "minimumScaleMultiplier": 0.08
 		},
 		
 		//Starting and Ending Color
@@ -64,9 +69,9 @@ const emitter = new Emitter(
 		
 		//Starting and Ending Speed with random
 		"speed": {
-		  "start": 10,
-		  "end": 10,
-		  "minimumSpeedMultiplier": 50
+		  "start": 100,
+		  "end": 3,
+		  "minimumSpeedMultiplier": 0
 		},
 		
 		//Directional Drift
