@@ -1,4 +1,4 @@
-import { Application, Sprite, Container, Texture, Graphics} from 'pixi.js'
+import { Application, Sprite, Container, Texture, Graphics, filters} from 'pixi.js'
 import { Emitter, Particle } from 'pixi-particles'
 
 const app = new Application({
@@ -31,7 +31,14 @@ dust.beginFill(0x808080);
 dust.drawCircle(0, 0, 30);
 dust.endFill();
 
+// let topLayer= new Container();
+// app.stage.addChild(topLayer);
+
 const container = new Container();
+app.stage.addChild(container);
+
+const particles = new Container();
+
 const texture = app.renderer.generateTexture(dust);
 
 const emitter = new Emitter(
@@ -39,7 +46,7 @@ const emitter = new Emitter(
 	// The PIXI.Container to put the emitter in
 	// if using blend modes, it's important to put this
 	// on top of a bitmap, and not use the root stage Container
-	container,
+	particles,
 
 	// The collection of particle images to use
 	[texture],
@@ -108,7 +115,7 @@ const emitter = new Emitter(
 		"blendMode": "normal",
 		"frequency": 0.01,
 		"emitterLifetime": -1,
-		"maxParticles": 1000,
+		"maxParticles": 2000,
 		"pos": {
 			"x": 0,
 			"y": 0
@@ -129,7 +136,17 @@ let fxn = function() {
 	randX = Math.floor(Math.random() * window.innerWidth);
 	randY = Math.floor(Math.random() * window.innerHeight);
   }
-setInterval(fxn, 1000);
+setInterval(fxn, 600);
+
+
+// const rectStrobe  = new Graphics();
+// rectStrobe.beginFill(0x808080);
+// rectStrobe.drawRect(0, (Math.random() * window.innerHeight),  window.innerWidth, (Math.random() * window.innerHeight));
+// rectStrobe.endFill();
+
+// app.stage.addChild(rectStrobe);
+
+
 
 // Calculate the current time
 var elapsed = Date.now();
@@ -141,13 +158,31 @@ let update = function(){
 	var now = Date.now();
 	// The emitter requires the elapsed
 	// number of seconds since the last update
-	emitter.spawnCircle.x = Math.floor(Math.random() * window.innerWidth);
-	emitter.spawnCircle.y = Math.floor(Math.random() * window.innerHeight);
+	emitter.spawnCircle.x = randX;
+	emitter.spawnCircle.y = randY;
 	emitter.update((now - elapsed) * 0.001);
 	elapsed = now;
-	app.stage.addChild(container)
+	container.addChild(particles)
 };
 
 emitter.emit = true;
 
 update();
+
+let rectStrobe = new Graphics();
+
+let strobe = () => {
+	rectStrobe.clear(); // removes last graphic drawn
+	rectStrobe.filters = [new filters.BlurFilter(30,10,1)];
+	rectStrobe.beginFill(0xFFFFFF);
+	rectStrobe.drawRect(0, (Math.random() * window.innerHeight),  window.innerWidth, (Math.random() * window.innerHeight));
+	rectStrobe.endFill();
+	app.stage.addChild(rectStrobe);
+	setTimeout(removeStrobe, 100);
+  }
+
+let removeStrobe = () => {
+	app.stage.removeChild(rectStrobe);
+}
+
+setInterval(strobe, Math.floor(Math.random() * (2500 - 1500 + 1)) + 1500);
