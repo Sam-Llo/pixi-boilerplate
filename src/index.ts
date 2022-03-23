@@ -85,8 +85,8 @@ const emitter = new Emitter(
 		
 		//Direction of movement 0 360
 		"startRotation": {
-		  "min": 90,
-		  "max": 90
+		  "min": -45,
+		  "max": 45
 		},
 		
 		//Allows to disable auto rotation based on drift
