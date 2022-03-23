@@ -123,6 +123,14 @@ const emitter = new Emitter(
 		}
 );
 
+private let randX: number;
+private let randY: number;
+let fxn = function() {
+	randX = Math.floor(Math.random() * window.innerWidth);
+	randY = Math.floor(Math.random() * window.innerHeight);
+  }
+setInterval(fxn, 1000);
+
 // Calculate the current time
 var elapsed = Date.now();
 
@@ -133,8 +141,8 @@ let update = function(){
 	var now = Date.now();
 	// The emitter requires the elapsed
 	// number of seconds since the last update
-	emitter.spawnCircle.x = mousex;
-	emitter.spawnCircle.y = mousey;
+	emitter.spawnCircle.x = Math.floor(Math.random() * window.innerWidth);
+	emitter.spawnCircle.y = Math.floor(Math.random() * window.innerHeight);
 	emitter.update((now - elapsed) * 0.001);
 	elapsed = now;
 	app.stage.addChild(container)
