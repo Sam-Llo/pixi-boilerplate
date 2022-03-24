@@ -1,13 +1,13 @@
-import { Application, Sprite, Container, Texture, Graphics, filters} from 'pixi.js'
-import { Emitter, Particle } from 'pixi-particles'
+import { Application,  Container,  Graphics, filters} from 'pixi.js'// Texture, Sprite,
+import { Emitter } from 'pixi-particles' // , Particle
 
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
 	backgroundColor: 0xFFFAF1,
-	width: window.innerWidth,
-	height: window.innerHeight
+	width: window.innerWidth/2,
+	height: window.innerHeight/2
 });
 
 // const clampy: Sprite = Sprite.from("clampy.png");
@@ -19,12 +19,12 @@ const app = new Application({
 
 // app.stage.addChild(clampy);
 
-private let mousex: number;
-private let mousey: number;
-document.addEventListener("mousemove", (event) => {
-	mousex = event.clientX; // Gets Mouse X
-	mousey = event.clientY; // Gets Mouse Y
-  });
+// let mousex: number;
+// let mousey: number;
+// document.addEventListener("mousemove", (event) => {
+// 	mousex = event.clientX; // Gets Mouse X
+// 	mousey = event.clientY; // Gets Mouse Y
+//   });
 
 const dust  = new Graphics();
 dust.beginFill(0x808080);
@@ -128,10 +128,10 @@ const emitter = new Emitter(
 			"r": 50,
 			"minR": 50
 		}
-);
+});
 
-private let randX: number;
-private let randY: number;
+let randX: number;
+let randY: number;
 let fxn = function() {
 	randX = Math.floor(Math.random() * window.innerWidth);
 	randY = Math.floor(Math.random() * window.innerHeight);
