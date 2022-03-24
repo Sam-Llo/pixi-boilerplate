@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "@pixi/particle-emitter": "^5.0.4",
+    "@types/three": "^0.138.0",
     "pixi-particles": "^4.3.1",
-    "pixi.js": "^6.2.2"
+    "pixi.js": "^6.2.2",
+    "three": "^0.138.3"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^9.1.0",
