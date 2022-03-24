@@ -1,6 +1,17 @@
 import { Application,  Container,  Graphics, filters} from 'pixi.js'// Texture, Sprite,
 import { Emitter } from 'pixi-particles' // , Particle
 
+
+var ztxt = new Ztextify(".hero-text", {
+	depth: "30px",
+	layers: 8,
+	fade: true,
+	direction: "forwards",
+	event: "pointer",
+	eventRotation: "35deg"
+ });
+
+
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
